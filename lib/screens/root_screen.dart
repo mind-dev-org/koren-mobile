@@ -13,7 +13,7 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   int currentIndex = 0;
 
-  final pages = const [
+  final List<Widget> pages = const [
     HomeScreen(),
     FarmersScreen(),
     AboutScreen(),
@@ -21,15 +21,20 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final navWidth = MediaQuery.of(context).size.width - 32;
+    final pillWidth = navWidth / 3 - 12;
+
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
-            child: Opacity(
-              opacity: 0.1,
-              child: Image.asset(
-                "assets/textures/background.png",
-                fit: BoxFit.cover,
+            child: IgnorePointer(
+              child: Opacity(
+                opacity: 0.06,
+                child: Image.asset(
+                  "assets/texture/background.png",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -37,40 +42,43 @@ class _RootScreenState extends State<RootScreen> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
         child: Container(
-          height: 70,
+          height: 72,
           decoration: BoxDecoration(
             color: const Color(0xFF252422),
-            borderRadius: BorderRadius.circular(40),
+            borderRadius: BorderRadius.circular(36),
           ),
           child: Stack(
+            alignment: Alignment.center,
             children: [
               AnimatedAlign(
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 320),
                 curve: Curves.easeInOut,
-                alignment: Alignment(
-                  -1 + (currentIndex * 1.0),
-                  0,
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 3 - 30,
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE2725B),
-                    borderRadius: BorderRadius.circular(30),
+                alignment: switch (currentIndex) {
+                  0 => Alignment.centerLeft,
+                  1 => Alignment.center,
+                  _ => Alignment.centerRight,
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Container(
+                    width: pillWidth,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE2725B),
+                      borderRadius: BorderRadius.circular(28),
+                    ),
                   ),
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  navItem(0, "assets/icons/harvest.png", "Harvest"),
-                  navItem(1, "assets/icons/farmers.png", "Farmers"),
-                  navItem(2, "assets/icons/about.png", "About"),
+                  Expanded(child: navItem(0, Icons.storefront)),
+                  Expanded(child: navItem(1, Icons.search)),
+                  Expanded(child: navItem(2, Icons.person_outline)),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -78,32 +86,29 @@ class _RootScreenState extends State<RootScreen> {
     );
   }
 
-  Widget navItem(int index, String icon, String label) {
+  Widget navItem(int index, IconData icon) {
+    final bool active = currentIndex == index;
+
     return GestureDetector(
       onTap: () {
         setState(() {
           currentIndex = index;
         });
       },
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width / 3 - 30,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
+      child: Center(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          transform: Matrix4.translationValues(0, active ? -2 : 0, 0),
+          child: AnimatedScale(
+            duration: const Duration(milliseconds: 250),
+            scale: active ? 1.15 : 1.0,
+            child: Icon(
               icon,
-              height: 22,
+              size: active ? 28 : 24,
               color: Colors.white,
             ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-              ),
-            )
-          ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import '../theme/app_colors.dart';
 
 class TickerWidget extends StatelessWidget {
   const TickerWidget({super.key});

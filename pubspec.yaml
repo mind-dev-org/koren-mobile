@@ -1,4 +1,4 @@
-name: project_name
+name: koren_mobile
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -8,16 +8,15 @@ environment:
   sdk: '>=3.0.0 <4.0.0' # Specifies the minimum and maximum Dart SDK versions
 
 dependencies:
-  cached_network_image: ^3.4.1
-  dio: ^5.9.2
-  equatable: ^2.0.8
   flutter:
     sdk: flutter
-  flutter_bloc: ^9.1.1
+
   marquee: ^2.3.0
-  # Add other packages here, e.g.:
-  # http: ^1.1.0
-  # cupertino_icons: ^1.0.6
+  cached_network_image: ^3.4.1
+  shared_preferences: ^2.5.4
+  provider: ^6.1.5+1
+  cupertino_icons: ^1.0.6
+  dio: ^5.9.2
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +25,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  uses-material-design: true
+  
   assets:
     - assets/fonts/
     - assets/texture/
