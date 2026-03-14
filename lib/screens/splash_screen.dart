@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'root_screen.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => const RootScreen(),
+          builder: (_) => const LoginScreen(),
         ),
       );
     });
@@ -65,13 +65,18 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).colorScheme.onSurface;
+
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset(
-              "assets/texture/background.png",
-              fit: BoxFit.cover,
+            child: Opacity(
+              opacity: 0.08,
+              child: Image.asset(
+                "assets/texture/background.png",
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Center(
@@ -79,13 +84,13 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: const Text(
+                child: Text(
                   "KOREN",
                   style: TextStyle(
                     fontFamily: "Fraunces",
                     fontSize: 42,
                     letterSpacing: 2,
-                    color: Color(0xFF000000),
+                    color: textColor,
                   ),
                 ),
               ),
