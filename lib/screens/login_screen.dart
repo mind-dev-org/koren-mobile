@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:koren_mobile/widgets/app_background.dart';
-
+import '../theme/app_colors.dart';
 import 'root_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,17 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  void continueToApp() {
+  void continueToApp(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -32,91 +21,202 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).colorScheme.onSurface;
-
     return Scaffold(
-      body: AppBackground(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 32),
-                Text(
-                  'KOREN',
-                  style: TextStyle(
-                    fontFamily: 'Fraunces',
-                    fontSize: 26,
-                    letterSpacing: 1,
-                    color: textColor,
-                  ),
-                ),
-                const SizedBox(height: 48),
-                Text(
-                  'Welcome back',
-                  style: TextStyle(
-                    fontFamily: 'Fraunces',
-                    fontSize: 34,
-                    height: 0.95,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Sign in to continue',
-                  style: TextStyle(
-                    fontFamily: 'SpaceGrotesk',
-                    fontSize: 16,
-                    color: textColor.withValues(alpha: 0.8),
-                  ),
-                ),
-                const SizedBox(height: 28),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    filled: true,
-                    fillColor: Colors.white.withValues(alpha: 0.8),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none,
+      backgroundColor: AppColors.backgroundLight,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.06,
+              child: Image.asset(
+                'assets/texture/background.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 26),
+                  const Text(
+                    'KOREN',
+                    style: TextStyle(
+                      fontFamily: 'Fraunces',
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      height: 1,
+                      color: AppColors.black,
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    filled: true,
-                    fillColor: Colors.white.withValues(alpha: 0.8),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none,
+                  const SizedBox(height: 56),
+                  const Text(
+                    'JOIN US!',
+                    style: TextStyle(
+                      fontFamily: 'Fraunces',
+                      fontSize: 54,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.italic,
+                      height: 0.95,
+                      color: AppColors.black,
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: continueToApp,
-                    child: const Text(
-                      'Sign in',
-                      style: TextStyle(
-                        fontFamily: 'Fraunces',
-                        fontSize: 16,
+                  const SizedBox(height: 14),
+                  const Text(
+                    'Every choice counts.\nYour conscious consumption\nstarts here.',
+                    style: TextStyle(
+                      fontFamily: 'Fraunces',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.italic,
+                      height: 1.15,
+                      color: AppColors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 42),
+                  _LoginButton(
+                    text: 'Continue with Google',
+                    backgroundColor: Colors.white,
+                    textColor: AppColors.black,
+                    borderColor: AppColors.black,
+                    leading: Image.asset(
+                      'assets/icons/google.png',
+                      width: 22,
+                      height: 22,
+                    ),
+                    onTap: () => continueToApp(context),
+                  ),
+                  const SizedBox(height: 14),
+                  _LoginButton(
+                    text: 'Continue with Apple',
+                    backgroundColor: AppColors.black,
+                    textColor: Colors.white,
+                    borderColor: AppColors.black,
+                    leading: const Icon(
+                      Icons.apple,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    onTap: () => continueToApp(context),
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () => continueToApp(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.accent,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                          side: const BorderSide(
+                            color: AppColors.black,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'CREATE ACCOUNT',
+                        style: TextStyle(
+                          fontFamily: 'ArchivoBlack',
+                          fontSize: 13,
+                          letterSpacing: 0.3,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LoginButton extends StatelessWidget {
+  final String text;
+  final Widget leading;
+  final VoidCallback onTap;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color borderColor;
+
+  const _LoginButton({
+    required this.text,
+    required this.leading,
+    required this.onTap,
+    required this.backgroundColor,
+    required this.textColor,
+    required this.borderColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: OutlinedButton(
+        onPressed: onTap,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          side: BorderSide(
+            color: borderColor,
+            width: 1,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 14),
         ),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 28,
+              height: 28,
+              child: Center(child: leading),
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 28,
+              height: 28,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GoogleMark extends StatelessWidget {
+  const _GoogleMark();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      'G',
+      style: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        color: Color(0xFF4285F4),
       ),
     );
   }
