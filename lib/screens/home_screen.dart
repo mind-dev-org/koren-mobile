@@ -27,12 +27,16 @@ class HomeScreen extends StatelessWidget {
 
           if (snapshot.hasError) {
             return Center(
-              child: Text(
-                'Failed to load products',
-                style: TextStyle(
-                  fontFamily: 'SpaceGrotesk',
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurface,
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(
+                  'Failed to load products\n${snapshot.error}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
             );
@@ -144,7 +148,7 @@ class HomeScreen extends StatelessWidget {
                   child: Text(
                     "TODAY'S HARVEST",
                     style: TextStyle(
-                      fontFamily: "Fraunces",
+                      fontFamily: "ArchivoBlack",
                       fontSize: 16,
                       letterSpacing: 1,
                     ),

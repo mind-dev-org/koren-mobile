@@ -205,19 +205,3 @@ class _LoginButton extends StatelessWidget {
     );
   }
 }
-
-class _GoogleMark extends StatelessWidget {
-  const _GoogleMark();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text(
-      'G',
-      style: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.w700,
-        color: Color(0xFF4285F4),
-      ),
-    );
-  }
-}

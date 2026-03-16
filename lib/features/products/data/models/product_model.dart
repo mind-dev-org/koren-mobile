@@ -17,12 +17,12 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      name: json['name'],
-      price: (json['price'] as num).toDouble(),
-      imageUrl: json['image_url'],
-      unit: json['unit'],
-      isFeatured: json['is_featured'] ?? false,
+      id: json['id'] as int,
+      name: json['name'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      imageUrl: json['image_url'] as String? ?? '',
+      unit: json['unit'] as String? ?? '',
+      isFeatured: json['is_featured'] as bool? ?? false,
     );
   }
 
@@ -31,9 +31,9 @@ class ProductModel {
       'id': id,
       'name': name,
       'price': price,
-      'imageUrl': imageUrl,
+      'image_url': imageUrl,
       'unit': unit,
-      'isFeatured': isFeatured,
+      'is_featured': isFeatured,
     };
   }
 
