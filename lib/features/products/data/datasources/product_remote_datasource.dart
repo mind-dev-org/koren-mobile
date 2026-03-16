@@ -16,6 +16,8 @@ class ProductRemoteDatasource implements ProductDatasource {
   Future<List<ProductModel>> getProducts() async {
     final response = await dio.get('$baseUrl/products');
 
+    print('PRODUCTS response: ${response.data}');
+
     final List<dynamic> items = response.data['data'] as List<dynamic>;
 
     return items
