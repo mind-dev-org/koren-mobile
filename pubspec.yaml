@@ -36,6 +36,8 @@ flutter:
     - family: Fraunces
       fonts:
         - asset: assets/fonts/Fraunces-Regular.ttf
+        - asset: assets/fonts/Fraunces-Bold.ttf
+        - asset: assets/fonts/Fraunces-Black.ttf
 
     - family: SpaceGrotesk
       fonts:

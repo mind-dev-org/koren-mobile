@@ -14,16 +14,30 @@ class ProductRemoteDatasource implements ProductDatasource {
 
   @override
   Future<List<ProductModel>> getProducts() async {
-    throw UnimplementedError('Remote API is not connected yet');
+    final response = await dio.get('$baseUrl/products');
+
+    final List<dynamic> items = response.data['data'] as List<dynamic>;
+
+    return items
+        .map((json) => ProductModel.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 
   @override
   Future<ProductModel> getFeaturedProduct() async {
-    throw UnimplementedError('Remote API is not connected yet');
+    final response = await dio.get('$baseUrl/products/featured');
+
+    return ProductModel.fromJson(
+      response.data['data'] as Map<String, dynamic>,
+    );
   }
 
   @override
   Future<ProductModel> getProductById(int id) async {
-    throw UnimplementedError('Remote API is not connected yet');
+    final response = await dio.get('$baseUrl/products/$id');
+
+    return ProductModel.fromJson(
+      response.data['data'] as Map<String, dynamic>,
+    );
   }
 }

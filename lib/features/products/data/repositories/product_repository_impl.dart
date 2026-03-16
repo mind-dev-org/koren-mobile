@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../../config/app_config.dart';
 import '../datasources/product_datasource.dart';
 import '../datasources/product_mock_datasource.dart';
 import '../datasources/product_remote_datasource.dart';
@@ -8,15 +9,13 @@ import '../models/product_model.dart';
 class ProductRepositoryImpl {
   late final ProductDatasource _datasource;
 
-  static const bool useMock = true;
-
   ProductRepositoryImpl() {
-    if (useMock) {
+    if (AppConfig.useMock) {
       _datasource = ProductMockDatasource();
     } else {
       _datasource = ProductRemoteDatasource(
         dio: Dio(),
-        baseUrl: 'https://api.koren.market',
+        baseUrl: AppConfig.baseUrl,
       );
     }
   }

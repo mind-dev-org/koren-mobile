@@ -20,9 +20,9 @@ class ProductModel {
       id: json['id'],
       name: json['name'],
       price: (json['price'] as num).toDouble(),
-      imageUrl: json['imageUrl'],
+      imageUrl: json['image_url'],
       unit: json['unit'],
-      isFeatured: json['isFeatured'] ?? false,
+      isFeatured: json['is_featured'] ?? false,
     );
   }
 
