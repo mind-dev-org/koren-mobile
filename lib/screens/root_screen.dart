@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'farmers_screen.dart';
 import 'about_screen.dart';
+import '../theme/app_colors.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -21,94 +22,80 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final navWidth = MediaQuery.of(context).size.width - 32;
-    final pillWidth = navWidth / 3 - 12;
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Opacity(
-                opacity: 0.06,
-                child: Image.asset(
-                  "assets/texture/background.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
+      backgroundColor: AppColors.backgroundLight,
+      body: pages[currentIndex],
+      bottomNavigationBar: Container(
+        height: 88,
+        decoration: const BoxDecoration(
+          color: AppColors.backgroundLight,
+          border: Border(
+            top: BorderSide(
+              color: Color(0x14000000),
+              width: 1,
             ),
           ),
-          pages[currentIndex],
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-        child: Container(
-          height: 72,
-          decoration: BoxDecoration(
-            color: const Color(0xFF252422),
-            borderRadius: BorderRadius.circular(36),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              AnimatedAlign(
-                duration: const Duration(milliseconds: 320),
-                curve: Curves.easeInOut,
-                alignment: switch (currentIndex) {
-                  0 => Alignment.centerLeft,
-                  1 => Alignment.center,
-                  _ => Alignment.centerRight,
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Container(
-                    width: pillWidth,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2725B),
-                      borderRadius: BorderRadius.circular(28),
-                    ),
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(child: navItem(0, Icons.storefront)),
-                  Expanded(child: navItem(1, Icons.search)),
-                  Expanded(child: navItem(2, Icons.person_outline)),
-                ],
-              ),
-            ],
-          ),
+        ),
+        child: Row(
+          children: [
+            _navItem(
+              index: 0,
+              icon: Icons.storefront_outlined,
+              activeIcon: Icons.storefront,
+              label: 'Market',
+            ),
+            _navItem(
+              index: 1,
+              icon: Icons.favorite_border,
+              activeIcon: Icons.favorite_border,
+              label: 'Favourite',
+            ),
+            _navItem(
+              index: 2,
+              icon: Icons.person_outline,
+              activeIcon: Icons.person_outline,
+              label: 'Account',
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget navItem(int index, IconData icon) {
+  Widget _navItem({
+    required int index,
+    required IconData icon,
+    required IconData activeIcon,
+    required String label,
+  }) {
     final bool active = currentIndex == index;
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          currentIndex = index;
-        });
-      },
-      child: Center(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-          transform: Matrix4.translationValues(0, active ? -2 : 0, 0),
-          child: AnimatedScale(
-            duration: const Duration(milliseconds: 250),
-            scale: active ? 1.15 : 1.0,
-            child: Icon(
-              icon,
-              size: active ? 28 : 24,
-              color: Colors.white,
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              active ? activeIcon : icon,
+              size: 26,
+              color: active ? AppColors.accent : Colors.grey,
             ),
-          ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'SpaceGrotesk',
+                fontSize: 14,
+                fontWeight: active ? FontWeight.w600 : FontWeight.w500,
+                color: active ? AppColors.accent : Colors.grey,
+              ),
+            ),
+          ],
         ),
       ),
     );
