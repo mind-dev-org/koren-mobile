@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../features/products/data/models/product_model.dart';
 import '../theme/app_colors.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart_provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductModel product;
@@ -260,11 +261,12 @@ class ProductDetailScreen extends StatelessWidget {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
+                              context.read<CartProvider>().addToCart(product);
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                    '${product.name} added to cart',
-                                  ),
+                                  content:
+                                      Text('${product.name} added to cart'),
                                 ),
                               );
                             },

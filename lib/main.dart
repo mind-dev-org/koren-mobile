@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/cart_provider.dart';
 import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 import 'theme/theme_provider.dart';
@@ -11,8 +13,15 @@ void main() async {
   await themeProvider.loadTheme();
 
   runApp(
-    ChangeNotifierProvider<ThemeProvider>.value(
-      value: themeProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>.value(
+          value: themeProvider,
+        ),
+        ChangeNotifierProvider<CartProvider>(
+          create: (_) => CartProvider(),
+        ),
+      ],
       child: const KorenApp(),
     ),
   );

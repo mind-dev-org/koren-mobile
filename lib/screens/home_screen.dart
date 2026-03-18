@@ -4,6 +4,9 @@ import '../theme/app_colors.dart';
 import '../features/products/data/models/product_model.dart';
 import '../features/products/data/repositories/product_repository_impl.dart';
 import 'product_detail_screen.dart';
+import 'package:provider/provider.dart';
+import '../providers/cart_provider.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -46,174 +49,217 @@ class HomeScreen extends StatelessWidget {
               return SingleChildScrollView(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'KOREN',
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.black,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'KOREN',
+                              style: TextStyle(
+                                fontFamily: 'Fraunces',
+                                fontSize: 28,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 46,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.black,
-                                  width: 1,
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const SearchScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 46,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: AppColors.black,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.search,
+                                          size: 24,
+                                          color: AppColors.black,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          'Search',
+                                          style: TextStyle(
+                                            fontFamily: 'SpaceGrotesk',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Consumer<CartProvider>(
+                                  builder: (context, cart, child) {
+                                    return Container(
+                                      height: 46,
+                                      width: 46,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: AppColors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '${cart.itemCount}',
+                                        style: const TextStyle(
+                                          fontFamily: 'ArchivoBlack',
+                                          fontSize: 16,
+                                          color: AppColors.accent,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              height: 48,
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                color: AppColors.accent,
+                                border: Border(
+                                  top: BorderSide(
+                                      color: AppColors.black, width: 1),
+                                  bottom: BorderSide(
+                                      color: AppColors.black, width: 1),
                                 ),
                               ),
-                              child: const Row(
+                              child: Marquee(
+                                text:
+                                    'LOCAL FOOD • ECO FARMING • NO PLASTIC • SEASONAL PRODUCTS • ',
+                                style: const TextStyle(
+                                  fontFamily: 'ArchivoBlack',
+                                  fontSize: 16,
+                                  color: AppColors.black,
+                                ),
+                                blankSpace: 32,
+                                velocity: 35,
+                                pauseAfterRound: Duration.zero,
+                                startPadding: 10,
+                                accelerationDuration: Duration.zero,
+                                decelerationDuration: Duration.zero,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 26, 20, 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.search,
-                                    size: 24,
-                                    color: AppColors.black,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'Search',
+                                  const Text(
+                                    "Today’s",
                                     style: TextStyle(
-                                      fontFamily: 'SpaceGrotesk',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Fraunces',
+                                      fontSize: 54,
+                                      height: 0.95,
+                                      fontWeight: FontWeight.w900,
                                       color: AppColors.black,
                                     ),
+                                  ),
+                                  const Text(
+                                    "Harvest.",
+                                    style: TextStyle(
+                                      fontFamily: 'Fraunces',
+                                      fontSize: 54,
+                                      height: 0.95,
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle: FontStyle.italic,
+                                      color: AppColors.accent,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 18),
+                                  const Text(
+                                    'Every product below was picked within\nthe last 48 hours. Named farmer,\nreal address, zero middlemen.',
+                                    style: TextStyle(
+                                      fontFamily: 'Fraunces',
+                                      fontSize: 18,
+                                      height: 1.18,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.italic,
+                                      color: AppColors.dark,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 34),
+                                  const Divider(
+                                      color: AppColors.black, thickness: 1.2),
+                                  const _StatRow(
+                                      number: '6', label: 'PRODUCTS TODAY'),
+                                  const Divider(
+                                      color: AppColors.black, thickness: 1.2),
+                                  const _StatRow(
+                                    number: '5',
+                                    label: 'FARMERS HARVESTING',
+                                  ),
+                                  const Divider(
+                                      color: AppColors.black, thickness: 1.2),
+                                  const _StatRow(
+                                    number: '0',
+                                    label: 'MIDDLEMAN IN THE CHAIN',
+                                  ),
+                                  const Divider(
+                                      color: AppColors.black, thickness: 1.2),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 400,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text(
+                                    'Browse all products',
+                                    style: TextStyle(
+                                      fontFamily: 'Fraunces',
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ...products.map(
+                                    (product) => Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 14),
+                                      child: _ProductCardLite(
+                                        product: product,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 24),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 280,
+                                    color: AppColors.olive,
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 48,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: AppColors.accent,
-                        border: Border(
-                          top: BorderSide(color: AppColors.black, width: 1),
-                          bottom: BorderSide(color: AppColors.black, width: 1),
+                          ],
                         ),
-                      ),
-                      child: Marquee(
-                        text:
-                            'LOCAL FOOD • ECO FARMING • NO PLASTIC • SEASONAL PRODUCTS • ',
-                        style: const TextStyle(
-                          fontFamily: 'ArchivoBlack',
-                          fontSize: 16,
-                          color: AppColors.black,
-                        ),
-                        blankSpace: 32,
-                        velocity: 35,
-                        pauseAfterRound: Duration.zero,
-                        startPadding: 10,
-                        accelerationDuration: Duration.zero,
-                        decelerationDuration: Duration.zero,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 26, 20, 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Today’s",
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 54,
-                              height: 0.95,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.black,
-                            ),
-                          ),
-                          const Text(
-                            "Harvest.",
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 54,
-                              height: 0.95,
-                              fontWeight: FontWeight.w700,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.accent,
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                          const Text(
-                            'Every product below was picked within\nthe last 48 hours. Named farmer,\nreal address, zero middlemen.',
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 18,
-                              height: 1.18,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.dark,
-                            ),
-                          ),
-                          const SizedBox(height: 34),
-                          const Divider(color: AppColors.black, thickness: 1.2),
-                          const _StatRow(number: '6', label: 'PRODUCTS TODAY'),
-                          const Divider(color: AppColors.black, thickness: 1.2),
-                          const _StatRow(
-                            number: '5',
-                            label: 'FARMERS HARVESTING',
-                          ),
-                          const Divider(color: AppColors.black, thickness: 1.2),
-                          const _StatRow(
-                            number: '0',
-                            label: 'MIDDLEMAN IN THE CHAIN',
-                          ),
-                          const Divider(color: AppColors.black, thickness: 1.2),
-                          const SizedBox(height: 20),
-                          Container(
-                            width: double.infinity,
-                            height: 400,
-                            color: Colors.black,
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Browse all products',
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 32,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          ...products.map(
-                            (product) => Padding(
-                              padding: const EdgeInsets.only(bottom: 14),
-                              child: _ProductCardLite(
-                                product: product,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          Container(
-                            width: double.infinity,
-                            height: 280,
-                            color: AppColors.olive,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                      )
+                    ]),
               );
             },
           ),
