@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-
 import '../models/product_model.dart';
 import 'product_datasource.dart';
+import 'package:flutter/foundation.dart';
 
 class ProductRemoteDatasource implements ProductDatasource {
   final Dio dio;
@@ -14,32 +14,60 @@ class ProductRemoteDatasource implements ProductDatasource {
 
   @override
   Future<List<ProductModel>> getProducts() async {
-    final response = await dio.get('$baseUrl/products');
+    try {
+      final response = await dio.get('$baseUrl/products');
 
-    print('PRODUCTS response: ${response.data}');
+      if (kDebugMode) {
+        debugPrint('PRODUCTS response: ${response.data}');
+      }
 
-    final List<dynamic> items = response.data['data'] as List<dynamic>;
+      final List<dynamic> items =
+          (response.data['data'] as List<dynamic>? ?? []);
 
-    return items
-        .map((json) => ProductModel.fromJson(json as Map<String, dynamic>))
-        .toList();
+      return items
+          .map((json) => ProductModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        debugPrint('Dio error: ${e.message}');
+      }
+      throw Exception('Failed to load products');
+    }
   }
 
   @override
   Future<ProductModel> getFeaturedProduct() async {
-    final response = await dio.get('$baseUrl/products/featured');
+    try {
+      final response = await dio.get('$baseUrl/products/featured');
 
-    return ProductModel.fromJson(
-      response.data['data'] as Map<String, dynamic>,
-    );
+      final data = response.data['data'];
+
+      if (data == null) {
+        throw Exception('Featured product not found');
+      }
+
+      return ProductModel.fromJson(data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      debugPrint('Dio error: ${e.message}');
+      throw Exception('Failed to load featured product');
+    }
   }
 
   @override
   Future<ProductModel> getProductById(int id) async {
-    final response = await dio.get('$baseUrl/products/$id');
+    try {
+      final response = await dio.get('$baseUrl/products/$id');
 
-    return ProductModel.fromJson(
-      response.data['data'] as Map<String, dynamic>,
-    );
+      final data = response.data['data'];
+
+      if (data == null) {
+        throw Exception('Product not found');
+      }
+
+      return ProductModel.fromJson(data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      debugPrint('Dio error: ${e.message}');
+      throw Exception('Failed to load product');
+    }
   }
 }
