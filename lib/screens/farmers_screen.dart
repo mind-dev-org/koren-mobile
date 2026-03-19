@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_header.dart';
-import '../widgets/ticker_widget.dart';
+import '../widgets/market_top_bar.dart';
 
 class FarmersScreen extends StatelessWidget {
   const FarmersScreen({super.key});
@@ -14,9 +13,8 @@ class FarmersScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppHeader(),
-            const TickerWidget(),
-            const SizedBox(height: 24),
+            const MarketTopBar(),
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -30,19 +28,19 @@ class FarmersScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            _FarmerCard(
+            const _FarmerCard(
               name: "Ethan Carter",
               region: "Poltava region",
               description:
                   "Small-scale farmer focused on seasonal vegetables and regenerative practices.",
             ),
-            _FarmerCard(
+            const _FarmerCard(
               name: "Olena Hrytsenko",
               region: "Lviv region",
               description:
                   "Grows apples, greens and herbs with an emphasis on low-waste packaging.",
             ),
-            _FarmerCard(
+            const _FarmerCard(
               name: "Mykola Bondar",
               region: "Vinnytsia region",
               description:

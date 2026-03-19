@@ -9,13 +9,21 @@ class CartProvider extends ChangeNotifier {
 
   int get itemCount => _items.length;
 
+  double get totalPrice {
+    double total = 0;
+    for (final item in _items) {
+      total += item.price;
+    }
+    return total;
+  }
+
   void addToCart(ProductModel product) {
     _items.add(product);
     notifyListeners();
   }
 
-  void removeFromCart(ProductModel product) {
-    _items.remove(product);
+  void removeAt(int index) {
+    _items.removeAt(index);
     notifyListeners();
   }
 

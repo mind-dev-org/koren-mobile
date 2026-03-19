@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/app_header.dart';
-import '../widgets/ticker_widget.dart';
+import '../widgets/market_top_bar.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -14,8 +12,7 @@ class AboutScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppHeader(),
-            const TickerWidget(),
+            const MarketTopBar(),
             const SizedBox(height: 24),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
