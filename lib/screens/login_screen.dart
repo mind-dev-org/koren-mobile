@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/app_colors.dart';
 import 'root_screen.dart';
 
@@ -21,8 +22,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final lightCard = Colors.white;
+    final darkCard = const Color(0xFF1E1E1E);
+    final buttonBorder =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: scheme.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -41,18 +50,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 26),
-                  const Text(
+                  Text(
                     'KOREN',
                     style: TextStyle(
                       fontFamily: 'Fraunces',
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       height: 1,
-                      color: AppColors.black,
+                      color: scheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 56),
-                  const Text(
+                  Text(
                     'JOIN US!',
                     style: TextStyle(
                       fontFamily: 'Fraunces',
@@ -60,11 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w700,
                       fontStyle: FontStyle.italic,
                       height: 0.95,
-                      color: AppColors.black,
+                      color: scheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 14),
-                  const Text(
+                  Text(
                     'Every choice counts.\nYour conscious consumption\nstarts here.',
                     style: TextStyle(
                       fontFamily: 'Fraunces',
@@ -72,15 +81,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w500,
                       fontStyle: FontStyle.italic,
                       height: 1.15,
-                      color: AppColors.black,
+                      color: scheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 42),
                   _LoginButton(
                     text: 'Continue with Google',
-                    backgroundColor: Colors.white,
-                    textColor: AppColors.black,
-                    borderColor: AppColors.black,
+                    backgroundColor: isDark ? darkCard : lightCard,
+                    textColor: scheme.onSurface,
+                    borderColor: buttonBorder,
                     leading: Image.asset(
                       'assets/icons/google.png',
                       width: 22,
@@ -91,9 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 14),
                   _LoginButton(
                     text: 'Continue with Apple',
-                    backgroundColor: AppColors.black,
+                    backgroundColor: isDark ? darkCard : AppColors.black,
                     textColor: Colors.white,
-                    borderColor: AppColors.black,
+                    borderColor: buttonBorder,
                     leading: const Icon(
                       Icons.apple,
                       color: Colors.white,
@@ -113,8 +122,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0),
-                          side: const BorderSide(
-                            color: AppColors.black,
+                          side: BorderSide(
+                            color: buttonBorder,
                             width: 1,
                           ),
                         ),

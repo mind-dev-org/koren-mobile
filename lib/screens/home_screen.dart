@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
-import 'cart_screen.dart';
+
 import '../features/products/data/models/product_model.dart';
 import '../features/products/data/repositories/product_repository_impl.dart';
-import '../providers/cart_provider.dart';
+import '../providers/favorites_provider.dart';
 import '../theme/app_colors.dart';
-import 'product_detail_screen.dart';
-import 'search_screen.dart';
 import '../widgets/market_top_bar.dart';
+import 'product_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,6 +14,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = ProductRepositoryImpl();
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final borderColor =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
     return Stack(
       children: [
@@ -47,9 +50,9 @@ class HomeScreen extends StatelessWidget {
                     child: Text(
                       'ERROR:\n${snapshot.error}',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.black,
+                        color: scheme.onSurface,
                       ),
                     ),
                   ),
@@ -71,14 +74,14 @@ class HomeScreen extends StatelessWidget {
                     child: ListView(
                       padding: const EdgeInsets.fromLTRB(20, 26, 20, 24),
                       children: [
-                        const Text(
+                        Text(
                           "Today’s",
                           style: TextStyle(
                             fontFamily: 'Fraunces',
                             fontSize: 54,
                             height: 0.95,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.black,
+                            color: scheme.onSurface,
                           ),
                         ),
                         const Text(
@@ -93,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 18),
-                        const Text(
+                        Text(
                           'Every product below was picked within\nthe last 48 hours. Named farmer,\nreal address, zero middlemen.',
                           style: TextStyle(
                             fontFamily: 'Fraunces',
@@ -101,39 +104,45 @@ class HomeScreen extends StatelessWidget {
                             height: 1.18,
                             fontWeight: FontWeight.w600,
                             fontStyle: FontStyle.italic,
-                            color: AppColors.dark,
+                            color: scheme.onSurface.withValues(alpha: 0.8),
                           ),
                         ),
                         const SizedBox(height: 34),
-                        const Divider(color: AppColors.black, thickness: 1.2),
+                        Divider(color: borderColor, thickness: 1.2),
                         _StatRow(
                           number: '${products.length}',
                           label: 'PRODUCTS TODAY',
+                          isDark: isDark,
                         ),
-                        const Divider(color: AppColors.black, thickness: 1.2),
+                        Divider(color: borderColor, thickness: 1.2),
                         _StatRow(
                           number: '$uniqueFarmers',
                           label: 'FARMERS HARVESTING',
+                          isDark: isDark,
                         ),
-                        const Divider(color: AppColors.black, thickness: 1.2),
-                        const _StatRow(
+                        Divider(color: borderColor, thickness: 1.2),
+                        _StatRow(
                           number: '0',
                           label: 'MIDDLEMAN IN THE CHAIN',
+                          isDark: isDark,
                         ),
-                        const Divider(color: AppColors.black, thickness: 1.2),
+                        Divider(color: borderColor, thickness: 1.2),
                         const SizedBox(height: 24),
-                        const Text(
+                        Text(
                           'Browse all products',
                           style: TextStyle(
                             fontFamily: 'Fraunces',
                             fontSize: 32,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.black,
+                            color: scheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 16),
                         ...products.map(
-                          (product) => _ProductCardLite(product: product),
+                          (product) => _ProductCardLite(
+                            product: product,
+                            isDark: isDark,
+                          ),
                         ),
                       ],
                     ),
@@ -151,14 +160,18 @@ class HomeScreen extends StatelessWidget {
 class _StatRow extends StatelessWidget {
   final String number;
   final String label;
+  final bool isDark;
 
   const _StatRow({
     required this.number,
     required this.label,
+    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 22),
       child: Row(
@@ -178,10 +191,10 @@ class _StatRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'ArchivoBlack',
                 fontSize: 16,
-                color: AppColors.dark,
+                color: scheme.onSurface,
               ),
             ),
           ),
@@ -193,13 +206,26 @@ class _StatRow extends StatelessWidget {
 
 class _ProductCardLite extends StatelessWidget {
   final ProductModel product;
+  final bool isDark;
 
   const _ProductCardLite({
     required this.product,
+    required this.isDark,
   });
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    final cardColor =
+        isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF4F1EA);
+
+    final borderColor =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
+
+    final fallbackColor =
+        isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE7E2D7);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -212,29 +238,54 @@ class _ProductCardLite extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 14),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.black, width: 1.2),
-          color: const Color(0xFFF4F1EA),
+          border: Border.all(color: borderColor, width: 1.2),
+          color: cardColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.black),
-                ),
-                child: Text(
-                  product.category.name.isNotEmpty
-                      ? product.category.name.toUpperCase()
-                      : 'PRODUCT',
-                  style: const TextStyle(
-                    fontFamily: 'ArchivoBlack',
-                    fontSize: 9,
-                    color: AppColors.dark,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Text(
+                      product.category.name.isNotEmpty
+                          ? product.category.name.toUpperCase()
+                          : 'PRODUCT',
+                      style: TextStyle(
+                        fontFamily: 'ArchivoBlack',
+                        fontSize: 9,
+                        color: scheme.onSurface,
+                      ),
+                    ),
                   ),
-                ),
+                  Consumer<FavoritesProvider>(
+                    builder: (context, favorites, child) {
+                      final isFavorite = favorites.isFavorite(product.id);
+
+                      return InkWell(
+                        onTap: () {
+                          favorites.toggleFavorite(product.id);
+                        },
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color:
+                              isFavorite ? AppColors.accent : scheme.onSurface,
+                          size: 24,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -246,23 +297,23 @@ class _ProductCardLite extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          color: const Color(0xFFE7E2D7),
+                          color: fallbackColor,
                           alignment: Alignment.center,
-                          child: const Icon(
+                          child: Icon(
                             Icons.image_not_supported_outlined,
                             size: 40,
-                            color: AppColors.dark,
+                            color: scheme.onSurface,
                           ),
                         );
                       },
                     )
                   : Container(
-                      color: const Color(0xFFE7E2D7),
+                      color: fallbackColor,
                       alignment: Alignment.center,
-                      child: const Icon(
+                      child: Icon(
                         Icons.image_not_supported_outlined,
                         size: 40,
-                        color: AppColors.dark,
+                        color: scheme.onSurface,
                       ),
                     ),
             ),
@@ -273,12 +324,12 @@ class _ProductCardLite extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Fraunces',
                       fontSize: 26,
                       fontWeight: FontWeight.w900,
                       height: 0.9,
-                      color: AppColors.black,
+                      color: scheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -286,11 +337,11 @@ class _ProductCardLite extends StatelessWidget {
                     product.farmer.name.isNotEmpty
                         ? 'BY ${product.farmer.name.toUpperCase()}'
                         : 'BY FARMER',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'SpaceGrotesk',
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: Colors.grey,
+                      color: scheme.onSurface.withValues(alpha: 0.65),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -306,7 +357,7 @@ class _ProductCardLite extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: 32,
-                    color: AppColors.black,
+                    color: isDark ? AppColors.accent : AppColors.black,
                     alignment: Alignment.center,
                     child: const Text(
                       'VIEW PRODUCT',

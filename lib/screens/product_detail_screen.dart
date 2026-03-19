@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../features/products/data/models/product_model.dart';
-import '../theme/app_colors.dart';
 import 'package:provider/provider.dart';
+
+import '../features/products/data/models/product_model.dart';
 import '../providers/cart_provider.dart';
+import '../providers/favorites_provider.dart';
+import '../theme/app_colors.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final ProductModel product;
@@ -14,6 +16,8 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     final categoryLabel = product.category.name.isNotEmpty
         ? product.category.name.toUpperCase()
         : 'PRODUCT';
@@ -25,7 +29,7 @@ class ProductDetailScreen extends StatelessWidget {
         product.farmer.region.isNotEmpty ? product.farmer.region : 'Ukraine';
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: scheme.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -48,20 +52,41 @@ class ProductDetailScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back,
-                          color: AppColors.black,
+                          color: scheme.onSurface,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Text(
-                        'Product',
-                        style: TextStyle(
-                          fontFamily: 'Fraunces',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.black,
+                      Expanded(
+                        child: Text(
+                          'Product',
+                          style: TextStyle(
+                            fontFamily: 'Fraunces',
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            color: scheme.onSurface,
+                          ),
                         ),
+                      ),
+                      Consumer<FavoritesProvider>(
+                        builder: (context, favorites, child) {
+                          final isFavorite = favorites.isFavorite(product.id);
+
+                          return IconButton(
+                            onPressed: () {
+                              favorites.toggleFavorite(product.id);
+                            },
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isFavorite
+                                  ? AppColors.accent
+                                  : scheme.onSurface,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -72,13 +97,11 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        /// IMAGE CARD
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              color: AppColors.black,
-                              width: 1.2,
-                            ),
+                            border: Border.all(color: scheme.onSurface),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,14 +114,14 @@ class ProductDetailScreen extends StatelessWidget {
                                     vertical: 4,
                                   ),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.black),
+                                    border: Border.all(color: scheme.onSurface),
                                   ),
                                   child: Text(
                                     categoryLabel,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'ArchivoBlack',
                                       fontSize: 10,
-                                      color: AppColors.dark,
+                                      color: scheme.onSurface,
                                     ),
                                   ),
                                 ),
@@ -110,45 +133,46 @@ class ProductDetailScreen extends StatelessWidget {
                                     ? Image.network(
                                         product.imageUrl,
                                         fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Container(
-                                            color: const Color(0xFFE7E2D7),
-                                            alignment: Alignment.center,
-                                            child: const Icon(
-                                              Icons
-                                                  .image_not_supported_outlined,
-                                              size: 56,
-                                              color: AppColors.dark,
-                                            ),
-                                          );
-                                        },
+                                        errorBuilder: (_, __, ___) => Container(
+                                          color: const Color(0xFFE7E2D7),
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.image_not_supported_outlined,
+                                            size: 56,
+                                            color: scheme.onSurface,
+                                          ),
+                                        ),
                                       )
                                     : Container(
                                         color: const Color(0xFFE7E2D7),
                                         alignment: Alignment.center,
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.image_not_supported_outlined,
                                           size: 56,
-                                          color: AppColors.dark,
+                                          color: scheme.onSurface,
                                         ),
                                       ),
                               ),
                             ],
                           ),
                         ),
+
                         const SizedBox(height: 22),
+
+                        /// TITLE
                         Text(
                           product.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Fraunces',
                             fontSize: 40,
                             height: 0.95,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.black,
+                            color: scheme.onSurface,
                           ),
                         ),
+
                         const SizedBox(height: 10),
+
                         Text(
                           '${product.price.toStringAsFixed(2)} € / ${product.unit}',
                           style: const TextStyle(
@@ -157,7 +181,10 @@ class ProductDetailScreen extends StatelessWidget {
                             color: AppColors.accent,
                           ),
                         ),
+
                         const SizedBox(height: 18),
+
+                        /// INFO CARDS
                         Row(
                           children: [
                             Expanded(
@@ -175,7 +202,9 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 12),
+
                         Row(
                           children: [
                             Expanded(
@@ -193,69 +222,37 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 24),
-                        const Text(
+
+                        /// DESCRIPTION
+                        Text(
                           'About product',
                           style: TextStyle(
                             fontFamily: 'Fraunces',
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.black,
+                            color: scheme.onSurface,
                           ),
                         ),
+
                         const SizedBox(height: 12),
+
                         Text(
                           product.description.isNotEmpty
                               ? product.description
-                              : 'Fresh seasonal product from local farmers. Carefully harvested and delivered with a focus on quality, transparency and lower-impact packaging.',
-                          style: const TextStyle(
+                              : 'Fresh seasonal product from local farmers.',
+                          style: TextStyle(
                             fontFamily: 'SpaceGrotesk',
                             fontSize: 16,
                             height: 1.5,
-                            color: AppColors.dark,
+                            color: scheme.onSurface.withValues(alpha: 0.8),
                           ),
                         ),
-                        if (product.tags.isNotEmpty) ...[
-                          const SizedBox(height: 22),
-                          const Text(
-                            'Tags',
-                            style: TextStyle(
-                              fontFamily: 'Fraunces',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: product.tags
-                                .map(
-                                  (tag) => Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 7,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppColors.black,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      tag.toUpperCase(),
-                                      style: const TextStyle(
-                                        fontFamily: 'ArchivoBlack',
-                                        fontSize: 10,
-                                        color: AppColors.dark,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ],
+
                         const SizedBox(height: 28),
+
+                        /// ADD TO CART
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -271,8 +268,8 @@ class ProductDetailScreen extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.black,
-                              foregroundColor: Colors.white,
+                              backgroundColor: scheme.onSurface,
+                              foregroundColor: scheme.surface,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
@@ -283,22 +280,23 @@ class ProductDetailScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontFamily: 'ArchivoBlack',
                                 fontSize: 14,
-                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
+
                         const SizedBox(height: 14),
+
+                        /// INFO BLOCK
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           color: AppColors.olive,
                           child: const Text(
-                            'Transparent sourcing. Real farmer. Real product. No middlemen.',
+                            'Transparent sourcing. Real farmer. Real product.',
                             style: TextStyle(
                               fontFamily: 'SpaceGrotesk',
                               fontSize: 14,
-                              height: 1.45,
                               color: Colors.white,
                             ),
                           ),
@@ -327,20 +325,19 @@ class _InfoMiniCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.black,
-          width: 1,
-        ),
+        border: Border.all(color: scheme.onSurface),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
+          const Text(
+            'TITLE',
+            style: TextStyle(
               fontFamily: 'ArchivoBlack',
               fontSize: 10,
               color: AppColors.accent,
@@ -349,11 +346,11 @@ class _InfoMiniCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'SpaceGrotesk',
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              color: AppColors.black,
+              color: scheme.onSurface,
             ),
           ),
         ],

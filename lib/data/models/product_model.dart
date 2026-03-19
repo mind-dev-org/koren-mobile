@@ -31,18 +31,6 @@ class ProductModel {
     required this.farmer,
   });
 
-  static String _normalizeImageUrl(String? raw) {
-    if (raw == null || raw.isEmpty) {
-      return 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6';
-    }
-
-    if (raw.startsWith('http://') || raw.startsWith('https://')) {
-      return raw;
-    }
-
-    return 'https://koren-api.onrender.com$raw';
-  }
-
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: (json['id'] as num?)?.toInt() ?? 0,
@@ -52,14 +40,20 @@ class ProductModel {
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       unit: json['unit']?.toString() ?? '',
       stockQty: (json['stock_qty'] as num?)?.toInt() ?? 0,
-      imageUrl: _normalizeImageUrl(json['image_url']?.toString()),
+
+      /// 🔥 ВАЖЛИВО: більше НІЯКОЇ нормалізації
+      /// бекенд віддає готовий URL
+      imageUrl: json['image_url']?.toString() ?? '',
+
       tags: (json['tags'] as List<dynamic>? ?? [])
           .map((e) => e.toString())
           .toList(),
+
       isFeatured: json['is_featured'] as bool? ?? false,
       harvestedAt: json['harvested_at']?.toString() ?? '',
       availableInAutoDelivery:
           json['available_in_auto_delivery'] as bool? ?? false,
+
       category: ProductCategoryModel.fromJson(
         json['category'] as Map<String, dynamic>? ?? {},
       ),
@@ -67,6 +61,26 @@ class ProductModel {
         json['farmer'] as Map<String, dynamic>? ?? {},
       ),
     );
+  }
+
+  /// (опціонально, але правильно для майбутнього)
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'slug': slug,
+      'description': description,
+      'price': price,
+      'unit': unit,
+      'stock_qty': stockQty,
+      'image_url': imageUrl,
+      'tags': tags,
+      'is_featured': isFeatured,
+      'harvested_at': harvestedAt,
+      'available_in_auto_delivery': availableInAutoDelivery,
+      'category': category.toJson(),
+      'farmer': farmer.toJson(),
+    };
   }
 }
 
@@ -87,6 +101,14 @@ class ProductCategoryModel {
       slug: json['slug']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'slug': slug,
+      'name': name,
+    };
   }
 }
 
@@ -110,5 +132,14 @@ class ProductFarmerModel {
       region: json['region']?.toString() ?? '',
       avatarUrl: json['avatar_url']?.toString() ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'region': region,
+      'avatar_url': avatarUrl,
+    };
   }
 }

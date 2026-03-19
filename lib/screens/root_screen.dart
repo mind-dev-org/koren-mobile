@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'home_screen.dart';
 import 'farmers_screen.dart';
 import 'about_screen.dart';
@@ -22,16 +23,18 @@ class _RootScreenState extends State<RootScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: scheme.surface,
       body: pages[currentIndex],
       bottomNavigationBar: Container(
         height: 88,
-        decoration: const BoxDecoration(
-          color: AppColors.backgroundLight,
+        decoration: BoxDecoration(
+          color: scheme.surface,
           border: Border(
             top: BorderSide(
-              color: Color(0x14000000),
+              color: scheme.onSurface.withValues(alpha: 0.1),
               width: 1,
             ),
           ),
@@ -47,13 +50,13 @@ class _RootScreenState extends State<RootScreen> {
             _navItem(
               index: 1,
               icon: Icons.favorite_border,
-              activeIcon: Icons.favorite_border,
+              activeIcon: Icons.favorite,
               label: 'Favourite',
             ),
             _navItem(
               index: 2,
               icon: Icons.person_outline,
-              activeIcon: Icons.person_outline,
+              activeIcon: Icons.person,
               label: 'Account',
             ),
           ],
@@ -68,6 +71,7 @@ class _RootScreenState extends State<RootScreen> {
     required IconData activeIcon,
     required String label,
   }) {
+    final scheme = Theme.of(context).colorScheme;
     final bool active = currentIndex == index;
 
     return Expanded(
@@ -83,7 +87,9 @@ class _RootScreenState extends State<RootScreen> {
             Icon(
               active ? activeIcon : icon,
               size: 26,
-              color: active ? AppColors.accent : Colors.grey,
+              color: active
+                  ? AppColors.accent
+                  : scheme.onSurface.withValues(alpha: 0.5),
             ),
             const SizedBox(height: 6),
             Text(
@@ -92,7 +98,9 @@ class _RootScreenState extends State<RootScreen> {
                 fontFamily: 'SpaceGrotesk',
                 fontSize: 14,
                 fontWeight: active ? FontWeight.w600 : FontWeight.w500,
-                color: active ? AppColors.accent : Colors.grey,
+                color: active
+                    ? AppColors.accent
+                    : scheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           ],

@@ -26,8 +26,19 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final inputFillColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final cardColor =
+        isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF4F1EA);
+    final fallbackColor =
+        isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE7E2D7);
+    final borderColor =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: scheme.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -53,7 +64,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text('Error: ${snapshot.error}'),
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: TextStyle(
+                        color: scheme.onSurface,
+                      ),
+                    ),
                   );
                 }
 
@@ -72,7 +88,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           IconButton(
                             onPressed: () => Navigator.pop(context),
-                            icon: const Icon(Icons.arrow_back),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: scheme.onSurface,
+                            ),
                           ),
                           Expanded(
                             child: TextField(
@@ -82,24 +101,31 @@ class _SearchScreenState extends State<SearchScreen> {
                                   query = value;
                                 });
                               },
+                              style: TextStyle(
+                                color: scheme.onSurface,
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'Search products',
+                                hintStyle: TextStyle(
+                                  color:
+                                      scheme.onSurface.withValues(alpha: 0.6),
+                                ),
                                 filled: true,
-                                fillColor: Colors.white,
+                                fillColor: inputFillColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(0),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.black,
+                                  borderSide: BorderSide(
+                                    color: borderColor,
                                   ),
                                 ),
-                                enabledBorder: const OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: AppColors.black,
+                                    color: borderColor,
                                   ),
                                 ),
-                                focusedBorder: const OutlineInputBorder(
+                                focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: AppColors.black,
+                                    color: borderColor,
                                   ),
                                 ),
                               ),
@@ -128,8 +154,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.black),
-                                color: const Color(0xFFF4F1EA),
+                                border: Border.all(color: borderColor),
+                                color: cardColor,
                               ),
                               child: Row(
                                 children: [
@@ -141,13 +167,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                             product.imageUrl,
                                             fit: BoxFit.cover,
                                             errorBuilder: (_, __, ___) =>
-                                                const Icon(
-                                              Icons
-                                                  .image_not_supported_outlined,
+                                                Container(
+                                              color: fallbackColor,
+                                              alignment: Alignment.center,
+                                              child: Icon(
+                                                Icons
+                                                    .image_not_supported_outlined,
+                                                color: scheme.onSurface,
+                                              ),
                                             ),
                                           )
-                                        : const Icon(
-                                            Icons.image_not_supported_outlined,
+                                        : Container(
+                                            color: fallbackColor,
+                                            alignment: Alignment.center,
+                                            child: Icon(
+                                              Icons
+                                                  .image_not_supported_outlined,
+                                              color: scheme.onSurface,
+                                            ),
                                           ),
                                   ),
                                   Expanded(
@@ -159,10 +196,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                         children: [
                                           Text(
                                             product.name,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontFamily: 'Fraunces',
                                               fontSize: 22,
                                               fontWeight: FontWeight.w800,
+                                              color: scheme.onSurface,
                                             ),
                                           ),
                                           const SizedBox(height: 6),
@@ -170,10 +208,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                             product.farmer.name.isNotEmpty
                                                 ? product.farmer.name
                                                 : 'Local farmer',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontFamily: 'SpaceGrotesk',
                                               fontSize: 12,
-                                              color: Colors.grey,
+                                              color: scheme.onSurface
+                                                  .withValues(alpha: 0.65),
                                             ),
                                           ),
                                           const SizedBox(height: 10),

@@ -10,9 +10,20 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final cardColor =
+        isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF4F1EA);
+
+    final fallbackColor =
+        isDark ? const Color(0xFF2A2A2A) : const Color(0xFFE7E2D7);
+
+    final borderColor =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: scheme.surface,
       body: Stack(
         children: [
           Positioned.fill(
@@ -35,19 +46,19 @@ class CartScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back,
-                          color: AppColors.black,
+                          color: scheme.onSurface,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Text(
+                      Text(
                         'Cart',
                         style: TextStyle(
                           fontFamily: 'Fraunces',
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.black,
+                          color: scheme.onSurface,
                         ),
                       ),
                     ],
@@ -55,14 +66,14 @@ class CartScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: cart.items.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
                             'Your cart is empty',
                             style: TextStyle(
                               fontFamily: 'Fraunces',
                               fontSize: 28,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.black,
+                              color: scheme.onSurface,
                             ),
                           ),
                         )
@@ -76,10 +87,10 @@ class CartScreen extends StatelessWidget {
                               margin: const EdgeInsets.only(bottom: 14),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: AppColors.black,
+                                  color: borderColor,
                                   width: 1.2,
                                 ),
-                                color: const Color(0xFFF4F1EA),
+                                color: cardColor,
                               ),
                               child: Row(
                                 children: [
@@ -91,13 +102,24 @@ class CartScreen extends StatelessWidget {
                                             product.imageUrl,
                                             fit: BoxFit.cover,
                                             errorBuilder: (_, __, ___) =>
-                                                const Icon(
-                                              Icons
-                                                  .image_not_supported_outlined,
+                                                Container(
+                                              color: fallbackColor,
+                                              alignment: Alignment.center,
+                                              child: Icon(
+                                                Icons
+                                                    .image_not_supported_outlined,
+                                                color: scheme.onSurface,
+                                              ),
                                             ),
                                           )
-                                        : const Icon(
-                                            Icons.image_not_supported_outlined,
+                                        : Container(
+                                            color: fallbackColor,
+                                            alignment: Alignment.center,
+                                            child: Icon(
+                                              Icons
+                                                  .image_not_supported_outlined,
+                                              color: scheme.onSurface,
+                                            ),
                                           ),
                                   ),
                                   Expanded(
@@ -109,11 +131,11 @@ class CartScreen extends StatelessWidget {
                                         children: [
                                           Text(
                                             product.name,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontFamily: 'Fraunces',
                                               fontSize: 22,
                                               fontWeight: FontWeight.w800,
-                                              color: AppColors.black,
+                                              color: scheme.onSurface,
                                             ),
                                           ),
                                           const SizedBox(height: 8),
@@ -135,7 +157,10 @@ class CartScreen extends StatelessWidget {
                                           .read<CartProvider>()
                                           .removeAt(index);
                                     },
-                                    icon: const Icon(Icons.close),
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: scheme.onSurface,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -146,10 +171,10 @@ class CartScreen extends StatelessWidget {
                 if (cart.items.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: AppColors.black,
+                          color: borderColor,
                           width: 1,
                         ),
                       ),
@@ -159,14 +184,15 @@ class CartScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
+                            Text(
                               'TOTAL',
                               style: TextStyle(
                                 fontFamily: 'ArchivoBlack',
                                 fontSize: 14,
-                                color: AppColors.black,
+                                color: scheme.onSurface,
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Text(
                               '${cart.totalPrice.toStringAsFixed(2)} €',
                               style: const TextStyle(
@@ -190,7 +216,8 @@ class CartScreen extends StatelessWidget {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.black,
+                              backgroundColor:
+                                  isDark ? AppColors.accent : AppColors.black,
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(

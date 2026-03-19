@@ -21,13 +21,13 @@ class MarketTopBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'KOREN',
                 style: TextStyle(
                   fontFamily: 'Fraunces',
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
-                  color: AppColors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Row(
@@ -74,6 +74,8 @@ class MarketTopBar extends StatelessWidget {
                   const SizedBox(width: 10),
                   Consumer<CartProvider>(
                     builder: (context, cart, child) {
+                      final scheme = Theme.of(context).colorScheme;
+
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -86,20 +88,51 @@ class MarketTopBar extends StatelessWidget {
                         child: Container(
                           height: 46,
                           width: 46,
-                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: AppColors.black,
+                              color: scheme.onSurface,
                               width: 1,
                             ),
                           ),
-                          child: Text(
-                            '${cart.itemCount}',
-                            style: const TextStyle(
-                              fontFamily: 'ArchivoBlack',
-                              fontSize: 16,
-                              color: AppColors.accent,
-                            ),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Center(
+                                child: Icon(
+                                  Icons.shopping_bag_outlined,
+                                  size: 22,
+                                  color: scheme.onSurface,
+                                ),
+                              ),
+                              if (cart.itemCount > 0)
+                                Positioned(
+                                  right: -4,
+                                  top: -4,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.accent,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    constraints: const BoxConstraints(
+                                      minWidth: 18,
+                                      minHeight: 18,
+                                    ),
+                                    child: Text(
+                                      '${cart.itemCount}',
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontFamily: 'ArchivoBlack',
+                                        fontSize: 9,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       );

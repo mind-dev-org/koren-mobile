@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'providers/favorites_provider.dart';
 import 'providers/cart_provider.dart';
 import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
@@ -21,6 +21,9 @@ void main() async {
         ChangeNotifierProvider<CartProvider>(
           create: (_) => CartProvider(),
         ),
+        ChangeNotifierProvider<FavoritesProvider>(
+          create: (_) => FavoritesProvider(),
+        )
       ],
       child: const KorenApp(),
     ),

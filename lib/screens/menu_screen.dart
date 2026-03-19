@@ -8,54 +8,69 @@ class MenuScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'KOREN',
-                    style: TextStyle(
-                      fontFamily: 'Fraunces',
-                      fontSize: 26,
-                      letterSpacing: 1,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(
-                      Icons.close,
-                      size: 28,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              _MenuItem(title: 'Harvest'),
-              const SizedBox(height: 20),
-              _MenuItem(title: 'Farmers'),
-              const SizedBox(height: 20),
-              _MenuItem(title: 'About'),
-              const Spacer(),
-              Text(
-                'Local food • eco farming • no more plastic',
-                style: TextStyle(
-                  fontFamily: 'SpaceGrotesk',
-                  fontSize: 14,
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+      backgroundColor: colorScheme.surface,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: IgnorePointer(
+              child: Opacity(
+                opacity: 0.06,
+                child: Image.asset(
+                  'assets/texture/background.png',
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 16),
-            ],
+            ),
           ),
-        ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'KOREN',
+                        style: TextStyle(
+                          fontFamily: 'Fraunces',
+                          fontSize: 26,
+                          letterSpacing: 1,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.close,
+                          size: 28,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  const _MenuItem(title: 'Harvest'),
+                  const SizedBox(height: 20),
+                  const _MenuItem(title: 'Farmers'),
+                  const SizedBox(height: 20),
+                  const _MenuItem(title: 'About'),
+                  const Spacer(),
+                  Text(
+                    'Local food • eco farming • no more plastic',
+                    style: TextStyle(
+                      fontFamily: 'SpaceGrotesk',
+                      fontSize: 14,
+                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
