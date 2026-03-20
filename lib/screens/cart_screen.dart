@@ -81,7 +81,8 @@ class CartScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                           itemCount: cart.items.length,
                           itemBuilder: (context, index) {
-                            final product = cart.items[index];
+                            final item = cart.items[index];
+                            final product = item.product;
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 14),
@@ -147,6 +148,73 @@ class CartScreen extends StatelessWidget {
                                               color: AppColors.accent,
                                             ),
                                           ),
+                                          const SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  context
+                                                      .read<CartProvider>()
+                                                      .decrementQuantity(
+                                                        product.id,
+                                                      );
+                                                },
+                                                child: Container(
+                                                  width: 28,
+                                                  height: 28,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: borderColor,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    '-',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: scheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Text(
+                                                '${item.quantity}',
+                                                style: TextStyle(
+                                                  fontFamily: 'ArchivoBlack',
+                                                  fontSize: 14,
+                                                  color: scheme.onSurface,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  context
+                                                      .read<CartProvider>()
+                                                      .incrementQuantity(
+                                                        product.id,
+                                                      );
+                                                },
+                                                child: Container(
+                                                  width: 28,
+                                                  height: 28,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: borderColor,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    '+',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: scheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -155,7 +223,7 @@ class CartScreen extends StatelessWidget {
                                     onPressed: () {
                                       context
                                           .read<CartProvider>()
-                                          .removeAt(index);
+                                          .removeByProductId(product.id);
                                     },
                                     icon: Icon(
                                       Icons.close,
@@ -192,7 +260,6 @@ class CartScreen extends StatelessWidget {
                                 color: scheme.onSurface,
                               ),
                             ),
-                            const SizedBox(width: 8),
                             Text(
                               '${cart.totalPrice.toStringAsFixed(2)} €',
                               style: const TextStyle(

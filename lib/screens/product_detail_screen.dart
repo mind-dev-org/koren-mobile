@@ -97,7 +97,6 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /// IMAGE CARD
                         Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -156,10 +155,7 @@ class ProductDetailScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-
                         const SizedBox(height: 22),
-
-                        /// TITLE
                         Text(
                           product.name,
                           style: TextStyle(
@@ -170,9 +166,7 @@ class ProductDetailScreen extends StatelessWidget {
                             color: scheme.onSurface,
                           ),
                         ),
-
                         const SizedBox(height: 10),
-
                         Text(
                           '${product.price.toStringAsFixed(2)} € / ${product.unit}',
                           style: const TextStyle(
@@ -181,10 +175,7 @@ class ProductDetailScreen extends StatelessWidget {
                             color: AppColors.accent,
                           ),
                         ),
-
                         const SizedBox(height: 18),
-
-                        /// INFO CARDS
                         Row(
                           children: [
                             Expanded(
@@ -202,9 +193,7 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 12),
-
                         Row(
                           children: [
                             Expanded(
@@ -222,10 +211,7 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
                         const SizedBox(height: 24),
-
-                        /// DESCRIPTION
                         Text(
                           'About product',
                           style: TextStyle(
@@ -235,9 +221,7 @@ class ProductDetailScreen extends StatelessWidget {
                             color: scheme.onSurface,
                           ),
                         ),
-
                         const SizedBox(height: 12),
-
                         Text(
                           product.description.isNotEmpty
                               ? product.description
@@ -249,10 +233,7 @@ class ProductDetailScreen extends StatelessWidget {
                             color: scheme.onSurface.withValues(alpha: 0.8),
                           ),
                         ),
-
                         const SizedBox(height: 28),
-
-                        /// ADD TO CART
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -284,10 +265,7 @@ class ProductDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 14),
-
-                        /// INFO BLOCK
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),

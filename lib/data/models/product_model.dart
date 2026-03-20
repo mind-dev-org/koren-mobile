@@ -40,20 +40,14 @@ class ProductModel {
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       unit: json['unit']?.toString() ?? '',
       stockQty: (json['stock_qty'] as num?)?.toInt() ?? 0,
-
-      /// 🔥 ВАЖЛИВО: більше НІЯКОЇ нормалізації
-      /// бекенд віддає готовий URL
       imageUrl: json['image_url']?.toString() ?? '',
-
       tags: (json['tags'] as List<dynamic>? ?? [])
           .map((e) => e.toString())
           .toList(),
-
       isFeatured: json['is_featured'] as bool? ?? false,
       harvestedAt: json['harvested_at']?.toString() ?? '',
       availableInAutoDelivery:
           json['available_in_auto_delivery'] as bool? ?? false,
-
       category: ProductCategoryModel.fromJson(
         json['category'] as Map<String, dynamic>? ?? {},
       ),
@@ -63,7 +57,6 @@ class ProductModel {
     );
   }
 
-  /// (опціонально, але правильно для майбутнього)
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -81,6 +74,41 @@ class ProductModel {
       'category': category.toJson(),
       'farmer': farmer.toJson(),
     };
+  }
+
+  ProductModel copyWith({
+    int? id,
+    String? name,
+    String? slug,
+    String? description,
+    double? price,
+    String? unit,
+    int? stockQty,
+    String? imageUrl,
+    List<String>? tags,
+    bool? isFeatured,
+    String? harvestedAt,
+    bool? availableInAutoDelivery,
+    ProductCategoryModel? category,
+    ProductFarmerModel? farmer,
+  }) {
+    return ProductModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      slug: slug ?? this.slug,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      unit: unit ?? this.unit,
+      stockQty: stockQty ?? this.stockQty,
+      imageUrl: imageUrl ?? this.imageUrl,
+      tags: tags ?? this.tags,
+      isFeatured: isFeatured ?? this.isFeatured,
+      harvestedAt: harvestedAt ?? this.harvestedAt,
+      availableInAutoDelivery:
+          availableInAutoDelivery ?? this.availableInAutoDelivery,
+      category: category ?? this.category,
+      farmer: farmer ?? this.farmer,
+    );
   }
 }
 
@@ -109,6 +137,18 @@ class ProductCategoryModel {
       'slug': slug,
       'name': name,
     };
+  }
+
+  ProductCategoryModel copyWith({
+    int? id,
+    String? slug,
+    String? name,
+  }) {
+    return ProductCategoryModel(
+      id: id ?? this.id,
+      slug: slug ?? this.slug,
+      name: name ?? this.name,
+    );
   }
 }
 
@@ -141,5 +181,19 @@ class ProductFarmerModel {
       'region': region,
       'avatar_url': avatarUrl,
     };
+  }
+
+  ProductFarmerModel copyWith({
+    int? id,
+    String? name,
+    String? region,
+    String? avatarUrl,
+  }) {
+    return ProductFarmerModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      region: region ?? this.region,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+    );
   }
 }
