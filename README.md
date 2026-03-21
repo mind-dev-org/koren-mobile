@@ -1,17 +1,57 @@
-# project_name
+KOREN — Local Food Marketplace
 
-A new Flutter project.
+KOREN is a mobile marketplace app that connects local farmers with customers, focusing on transparency, seasonal products, and eco-friendly consumption.
 
-## Getting Started
+Built with Flutter, the app integrates with a real backend API and demonstrates a complete product flow: browsing, searching, saving favourites, and managing a cart.
 
-This project is a starting point for a Flutter application.
+🚀 Features:
 
-A few resources to get you started if this is your first Flutter project:
+- Product Catalog
+Browse real products fetched from API
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Search
+Filter products by name in real time
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Favourites
+Save and view favourite products
+
+🛒-Cart with Quantity
+Add products, adjust quantity, calculate total price
+
+- Dark / Light Theme
+Toggle theme with full UI support
+
+- Responsive UI
+Clean layout with custom typography and reusable components
+
+🏗 Architecture:
+
+- Data Layer
+
+ProductRemoteDataSource — API calls (Dio)
+
+ProductRepositoryImpl — abstraction over data source
+
+- Models
+
+ProductModel
+
+CartItemModel
+
+- State Management
+
+Provider
+
+CartProvider
+
+FavoritesProvider
+
+ThemeProvider
+
+🌐 API Integration:
+
+- Uses Dio for HTTP requests
+
+- Fetches data from /products endpoint
+
+- Maps JSON responses into Dart models using fromJson
