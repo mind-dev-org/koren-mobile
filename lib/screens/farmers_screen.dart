@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koren_mobile/widgets/app_background.dart';
 import 'package:provider/provider.dart';
 
 import '../features/products/data/models/product_model.dart';
@@ -23,95 +24,100 @@ class FarmersScreen extends StatelessWidget {
     final borderColor =
         isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
-    return SafeArea(
-      child: FutureBuilder<List<ProductModel>>(
-        future: repository.getProducts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: SafeArea(
+          child: FutureBuilder<List<ProductModel>>(
+            future: repository.getProducts(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: scheme.onSurface,
-                  ),
-                ),
-              ),
-            );
-          }
-
-          final products = snapshot.data ?? [];
-
-          return Consumer<FavoritesProvider>(
-            builder: (context, favorites, child) {
-              final favoriteProducts = products
-                  .where((product) => favorites.isFavorite(product.id))
-                  .toList();
-
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const MarketTopBar(),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "YOUR\nFAVOURITES.",
-                        style: TextStyle(
-                          fontFamily: "Fraunces",
-                          fontSize: 34,
-                          fontWeight: FontWeight.bold,
-                          height: 0.95,
-                          color: scheme.onSurface,
-                        ),
+              if (snapshot.hasError) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: scheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    if (favoriteProducts.isEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: cardColor,
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(
-                            color: borderColor,
-                            width: 1,
+                  ),
+                );
+              }
+
+              final products = snapshot.data ?? [];
+
+              return Consumer<FavoritesProvider>(
+                builder: (context, favorites, child) {
+                  final favoriteProducts = products
+                      .where((product) => favorites.isFavorite(product.id))
+                      .toList();
+
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const MarketTopBar(),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "YOUR\nFAVOURITES.",
+                            style: TextStyle(
+                              fontFamily: "Fraunces",
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              height: 0.95,
+                              color: scheme.onSurface,
+                            ),
                           ),
                         ),
-                        child: Text(
-                          'You have no favourite products yet.\nTap the heart icon on a product to save it here.',
-                          style: TextStyle(
-                            fontFamily: 'SpaceGrotesk',
-                            fontSize: 15,
-                            height: 1.5,
-                            color: scheme.onSurface,
+                        const SizedBox(height: 20),
+                        if (favoriteProducts.isEmpty)
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: cardColor,
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                color: borderColor,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              'You have no favourite products yet.\nTap the heart icon on a product to save it here.',
+                              style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                fontSize: 15,
+                                height: 1.5,
+                                color: scheme.onSurface,
+                              ),
+                            ),
+                          )
+                        else
+                          ...favoriteProducts.map(
+                            (product) => _FavouriteCard(
+                              product: product,
+                              isDark: isDark,
+                            ),
                           ),
-                        ),
-                      )
-                    else
-                      ...favoriteProducts.map(
-                        (product) => _FavouriteCard(
-                          product: product,
-                          isDark: isDark,
-                        ),
-                      ),
-                  ],
-                ),
+                      ],
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }

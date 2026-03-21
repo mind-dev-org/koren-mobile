@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koren_mobile/widgets/app_background.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
@@ -27,181 +28,186 @@ class AboutScreen extends StatelessWidget {
     final borderColor =
         isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const MarketTopBar(),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "MY\nACCOUNT.",
-                style: TextStyle(
-                  fontFamily: "Fraunces",
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
-                  height: 0.95,
-                  color: scheme.onSurface,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const MarketTopBar(),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "MY\nACCOUNT.",
+                    style: TextStyle(
+                      fontFamily: "Fraunces",
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      height: 0.95,
+                      color: scheme.onSurface,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: cardColor,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: borderColor, width: 1),
-              ),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    radius: 28,
-                    backgroundColor: AppColors.accent,
-                    child: Text(
-                      'K',
-                      style: TextStyle(
-                        fontFamily: 'ArchivoBlack',
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
+                const SizedBox(height: 20),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: borderColor, width: 1),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Pavlo Bereziuk',
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 28,
+                        backgroundColor: AppColors.accent,
+                        child: Text(
+                          'K',
                           style: TextStyle(
-                            fontFamily: 'Fraunces',
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800,
-                            color: scheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'pavlobereza@gmail.com',
-                          style: TextStyle(
-                            fontFamily: 'SpaceGrotesk',
-                            fontSize: 14,
-                            color: scheme.onSurface.withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _AccountStatCard(
-                      title: 'FAVOURITES',
-                      value: '${favorites.favoriteProductIds.length}',
-                      isDark: isDark,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _AccountStatCard(
-                      title: 'CART ITEMS',
-                      value: '${cart.itemCount}',
-                      isDark: isDark,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: secondaryCardColor,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: borderColor, width: 1),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Dark theme',
-                          style: TextStyle(
-                            fontFamily: 'Fraunces',
+                            fontFamily: 'ArchivoBlack',
                             fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: scheme.onSurface,
+                            color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Switch between light and dark mode.',
-                          style: TextStyle(
-                            fontFamily: 'SpaceGrotesk',
-                            fontSize: 14,
-                            height: 1.45,
-                            color: scheme.onSurface.withValues(alpha: 0.75),
-                          ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pavlo Bereziuk',
+                              style: TextStyle(
+                                fontFamily: 'Fraunces',
+                                fontSize: 24,
+                                fontWeight: FontWeight.w800,
+                                color: scheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              'pavlobereza@gmail.com',
+                              style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                fontSize: 14,
+                                color: scheme.onSurface.withValues(alpha: 0.75),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Switch(
-                    value: isDark,
-                    onChanged: (_) {
-                      themeProvider.toggleTheme();
-                    },
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _AccountStatCard(
+                          title: 'FAVOURITES',
+                          value: '${favorites.favoriteProductIds.length}',
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _AccountStatCard(
+                          title: 'CART ITEMS',
+                          value: '${cart.itemCount}',
+                          isDark: isDark,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            _AccountActionCard(
-              title: 'Clear cart',
-              description: 'Remove all products from your cart.',
-              buttonText: 'CLEAR CART',
-              onPressed: () {
-                context.read<CartProvider>().clearCart();
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: secondaryCardColor,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: borderColor, width: 1),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Dark theme',
+                              style: TextStyle(
+                                fontFamily: 'Fraunces',
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: scheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Switch between light and dark mode.',
+                              style: TextStyle(
+                                fontFamily: 'SpaceGrotesk',
+                                fontSize: 14,
+                                height: 1.45,
+                                color: scheme.onSurface.withValues(alpha: 0.75),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        value: isDark,
+                        onChanged: (_) {
+                          themeProvider.toggleTheme();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _AccountActionCard(
+                  title: 'Clear cart',
+                  description: 'Remove all products from your cart.',
+                  buttonText: 'CLEAR CART',
+                  onPressed: () {
+                    context.read<CartProvider>().clearCart();
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Cart cleared'),
-                  ),
-                );
-              },
-              isDark: isDark,
-            ),
-            const SizedBox(height: 16),
-            _AccountActionCard(
-              title: 'Clear favourites',
-              description: 'Remove all saved favourite products.',
-              buttonText: 'CLEAR FAVOURITES',
-              onPressed: () {
-                context.read<FavoritesProvider>().clearFavorites();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Cart cleared'),
+                      ),
+                    );
+                  },
+                  isDark: isDark,
+                ),
+                const SizedBox(height: 16),
+                _AccountActionCard(
+                  title: 'Clear favourites',
+                  description: 'Remove all saved favourite products.',
+                  buttonText: 'CLEAR FAVOURITES',
+                  onPressed: () {
+                    context.read<FavoritesProvider>().clearFavorites();
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Favourites cleared'),
-                  ),
-                );
-              },
-              isDark: isDark,
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Favourites cleared'),
+                      ),
+                    );
+                  },
+                  isDark: isDark,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

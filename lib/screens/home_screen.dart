@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:koren_mobile/widgets/app_background.dart';
 
 import '../features/products/data/models/product_model.dart';
 import '../features/products/data/repositories/product_repository_impl.dart';
@@ -8,34 +9,36 @@ import '../theme/app_colors.dart';
 import '../widgets/market_top_bar.dart';
 import 'product_detail_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Future<List<ProductModel>> _productsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _productsFuture = ProductRepositoryImpl().getProducts();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final repository = ProductRepositoryImpl();
     final scheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final borderColor =
         isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            child: Opacity(
-              opacity: 0.06,
-              child: Image.asset(
-                'assets/texture/background.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        SafeArea(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: SafeArea(
           child: FutureBuilder<List<ProductModel>>(
-            future: repository.getProducts(),
+            future: _productsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -112,19 +115,16 @@ class HomeScreen extends StatelessWidget {
                         _StatRow(
                           number: '${products.length}',
                           label: 'PRODUCTS TODAY',
-                          isDark: isDark,
                         ),
                         Divider(color: borderColor, thickness: 1.2),
                         _StatRow(
                           number: '$uniqueFarmers',
                           label: 'FARMERS HARVESTING',
-                          isDark: isDark,
                         ),
                         Divider(color: borderColor, thickness: 1.2),
-                        _StatRow(
+                        const _StatRow(
                           number: '0',
                           label: 'MIDDLEMAN IN THE CHAIN',
-                          isDark: isDark,
                         ),
                         Divider(color: borderColor, thickness: 1.2),
                         const SizedBox(height: 24),
@@ -152,7 +152,7 @@ class HomeScreen extends StatelessWidget {
             },
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -160,12 +160,10 @@ class HomeScreen extends StatelessWidget {
 class _StatRow extends StatelessWidget {
   final String number;
   final String label;
-  final bool isDark;
 
   const _StatRow({
     required this.number,
     required this.label,
-    required this.isDark,
   });
 
   @override

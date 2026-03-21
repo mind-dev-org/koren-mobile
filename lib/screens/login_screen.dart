@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koren_mobile/widgets/app_background.dart';
 
 import '../theme/app_colors.dart';
 import 'root_screen.dart';
@@ -31,119 +32,108 @@ class _LoginScreenState extends State<LoginScreen> {
         isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
 
     return Scaffold(
-      backgroundColor: scheme.surface,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Opacity(
-              opacity: 0.06,
-              child: Image.asset(
-                'assets/texture/background.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 26),
-                  Text(
-                    'KOREN',
-                    style: TextStyle(
-                      fontFamily: 'Fraunces',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      height: 1,
-                      color: scheme.onSurface,
-                    ),
+      backgroundColor: Colors.transparent,
+      body: AppBackground(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 26),
+                Text(
+                  'KOREN',
+                  style: TextStyle(
+                    fontFamily: 'Fraunces',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    height: 1,
+                    color: scheme.onSurface,
                   ),
-                  const SizedBox(height: 56),
-                  Text(
-                    'JOIN US!',
-                    style: TextStyle(
-                      fontFamily: 'Fraunces',
-                      fontSize: 54,
-                      fontWeight: FontWeight.w700,
-                      fontStyle: FontStyle.italic,
-                      height: 0.95,
-                      color: scheme.onSurface,
-                    ),
+                ),
+                const SizedBox(height: 56),
+                Text(
+                  'JOIN US!',
+                  style: TextStyle(
+                    fontFamily: 'Fraunces',
+                    fontSize: 54,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.italic,
+                    height: 0.95,
+                    color: scheme.onSurface,
                   ),
-                  const SizedBox(height: 14),
-                  Text(
-                    'Every choice counts.\nYour conscious consumption\nstarts here.',
-                    style: TextStyle(
-                      fontFamily: 'Fraunces',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.italic,
-                      height: 1.15,
-                      color: scheme.onSurface,
-                    ),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  'Every choice counts.\nYour conscious consumption\nstarts here.',
+                  style: TextStyle(
+                    fontFamily: 'Fraunces',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic,
+                    height: 1.15,
+                    color: scheme.onSurface,
                   ),
-                  const SizedBox(height: 42),
-                  _LoginButton(
-                    text: 'Continue with Google',
-                    backgroundColor: isDark ? darkCard : lightCard,
-                    textColor: scheme.onSurface,
-                    borderColor: buttonBorder,
-                    leading: Image.asset(
-                      'assets/icons/google.png',
-                      width: 22,
-                      height: 22,
-                    ),
-                    onTap: () => continueToApp(context),
+                ),
+                const SizedBox(height: 42),
+                _LoginButton(
+                  text: 'Continue with Google',
+                  backgroundColor: isDark ? darkCard : lightCard,
+                  textColor: scheme.onSurface,
+                  borderColor: buttonBorder,
+                  leading: Image.asset(
+                    'assets/icons/google.png',
+                    width: 22,
+                    height: 22,
                   ),
-                  const SizedBox(height: 14),
-                  _LoginButton(
-                    text: 'Continue with Apple',
-                    backgroundColor: isDark ? darkCard : AppColors.black,
-                    textColor: Colors.white,
-                    borderColor: buttonBorder,
-                    leading: const Icon(
-                      Icons.apple,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    onTap: () => continueToApp(context),
+                  onTap: () => continueToApp(context),
+                ),
+                const SizedBox(height: 14),
+                _LoginButton(
+                  text: 'Continue with Apple',
+                  backgroundColor: isDark ? darkCard : AppColors.black,
+                  textColor: Colors.white,
+                  borderColor: buttonBorder,
+                  leading: const Icon(
+                    Icons.apple,
+                    color: Colors.white,
+                    size: 28,
                   ),
-                  const SizedBox(height: 14),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: () => continueToApp(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
-                          side: BorderSide(
-                            color: buttonBorder,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'CREATE ACCOUNT',
-                        style: TextStyle(
-                          fontFamily: 'ArchivoBlack',
-                          fontSize: 13,
-                          letterSpacing: 0.3,
-                          color: Colors.white,
+                  onTap: () => continueToApp(context),
+                ),
+                const SizedBox(height: 14),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: () => continueToApp(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accent,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        side: BorderSide(
+                          color: buttonBorder,
+                          width: 1,
                         ),
                       ),
                     ),
+                    child: const Text(
+                      'CREATE ACCOUNT',
+                      style: TextStyle(
+                        fontFamily: 'ArchivoBlack',
+                        fontSize: 13,
+                        letterSpacing: 0.3,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 
 class AppBackground extends StatelessWidget {
   final Widget child;
@@ -11,17 +10,23 @@ class AppBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Stack(
       children: [
         Container(
-          color: AppColors.backgroundLight,
+          color: scheme.surface,
         ),
         Positioned.fill(
-          child: Opacity(
-            opacity: 0.06,
-            child: Image.asset(
-              "assets/texture/background.png",
-              fit: BoxFit.cover,
+          child: IgnorePointer(
+            child: Opacity(
+              opacity: isDark ? 0.08 : 0.16,
+              child: Image.asset(
+                'assets/texture/background.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

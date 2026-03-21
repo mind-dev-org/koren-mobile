@@ -3,15 +3,24 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
-import '../theme/app_colors.dart';
 import '../screens/cart_screen.dart';
 import '../screens/search_screen.dart';
+import '../theme/app_colors.dart';
 
 class MarketTopBar extends StatelessWidget {
   const MarketTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final borderColor =
+        isDark ? Colors.white.withValues(alpha: 0.25) : AppColors.black;
+
+    final searchBackground =
+        isDark ? const Color(0xFF1E1E1E) : Colors.transparent;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,7 +36,7 @@ class MarketTopBar extends StatelessWidget {
                   fontFamily: 'Fraunces',
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: scheme.onSurface,
                 ),
               ),
               Row(
@@ -45,26 +54,27 @@ class MarketTopBar extends StatelessWidget {
                       height: 46,
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       decoration: BoxDecoration(
+                        color: searchBackground,
                         border: Border.all(
-                          color: AppColors.black,
+                          color: borderColor,
                           width: 1,
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Icon(
                             Icons.search,
                             size: 24,
-                            color: AppColors.black,
+                            color: scheme.onSurface,
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           Text(
                             'Search',
                             style: TextStyle(
                               fontFamily: 'SpaceGrotesk',
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.black,
+                              color: scheme.onSurface,
                             ),
                           ),
                         ],
@@ -74,8 +84,6 @@ class MarketTopBar extends StatelessWidget {
                   const SizedBox(width: 10),
                   Consumer<CartProvider>(
                     builder: (context, cart, child) {
-                      final scheme = Theme.of(context).colorScheme;
-
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -90,7 +98,7 @@ class MarketTopBar extends StatelessWidget {
                           width: 46,
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: scheme.onSurface,
+                              color: borderColor,
                               width: 1,
                             ),
                           ),
@@ -122,7 +130,9 @@ class MarketTopBar extends StatelessWidget {
                                       minHeight: 18,
                                     ),
                                     child: Text(
-                                      '${cart.itemCount}',
+                                      cart.itemCount > 9
+                                          ? '9+'
+                                          : '${cart.itemCount}',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontFamily: 'ArchivoBlack',
@@ -147,11 +157,11 @@ class MarketTopBar extends StatelessWidget {
         Container(
           height: 48,
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppColors.accent,
             border: Border(
-              top: BorderSide(color: AppColors.black, width: 1),
-              bottom: BorderSide(color: AppColors.black, width: 1),
+              top: BorderSide(color: borderColor, width: 1),
+              bottom: BorderSide(color: borderColor, width: 1),
             ),
           ),
           child: Marquee(
