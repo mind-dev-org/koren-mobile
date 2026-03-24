@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "928365316045",
+    "project_id": "koren-490714",
+    "storage_bucket": "koren-490714.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928365316045:android:52b739bce003d7304a6684",
+        "android_client_info": {
+          "package_name": "org.minddev.koren_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928365316045-enlmfbc045l2jm231p0m35agprnta8vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD69ewWv7ko-Q4Ax0PH1KklCf1jvkA-wOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928365316045-enlmfbc045l2jm231p0m35agprnta8vr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "928365316045-7m328up2o5calj4kpii8eaa55as8ndmk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.koren.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

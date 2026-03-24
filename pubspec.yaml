@@ -1,0 +1,60 @@
+name: koren_mobile
+description: A new Flutter project.
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0' 
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  marquee: ^2.3.0
+  cached_network_image: ^3.4.1
+  shared_preferences: ^2.5.4
+  provider: ^6.1.5+1
+  cupertino_icons: ^1.0.6
+  dio: ^5.9.2
+  google_sign_in: ^6.2.1
+  flutter_bloc: ^9.1.1
+  sign_in_with_apple: ^7.0.1
+  flutter_stripe: ^12.4.0
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^6.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+# The following section is specific to Flutter.
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/fonts/
+    - assets/texture/
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/Fraunces-Regular.ttf
+        - asset: assets/fonts/Fraunces-Bold.ttf
+        - asset: assets/fonts/Fraunces-Black.ttf
+
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk-Regular.ttf
+
+    - family: ArchivoBlack
+      fonts:
+        - asset: assets/fonts/ArchivoBlack-Regular.ttf
